@@ -1,4 +1,5 @@
 /.gitignore
 /src
+/tsconfig.json
 *.test.js
 *.test.d.ts

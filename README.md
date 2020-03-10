@@ -4,6 +4,8 @@ JWT, without the bloat.
 
 `mwt` is an tiny JWT(ish) module that follows the 80-20 rule. It keeps the 20% of JWT that covers 80% of the use-cases.
 
+It covers applications that control their own authorisation tokens, and do not need them to be readable by an insecure or third-party host.
+
 - Stateless authorisation
 - Wholly encrypted tokens
 - Tiny token sizes (50-90% smaller than JWT)
