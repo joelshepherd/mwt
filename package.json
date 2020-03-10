@@ -1,0 +1,21 @@
+{
+  "name": "mwt",
+  "version": "0.1.0",
+  "author": {
+    "name": "Joel Shepherd",
+    "url": "https://github.com/joelshepherd"
+  },
+  "license": "MIT",
+  "main": "dist/mod.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "engines": {
+    "node": ">=12"
+  },
+  "devDependencies": {
+    "@types/node": "^12.12.29",
+    "prettier": "^1.19.1",
+    "typescript": "^3.8.3"
+  }
+}
