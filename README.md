@@ -76,7 +76,7 @@ type Options = MwtOptions & EncOptions;
 `mwt` also comes with a simple wrapper around Node's crypto library that it uses to encrypt the tokens. You can use it too!
 
 ```ts
-import enc from "mwt/enc";
+import { enc } from "mwt";
 
 const { encrypt, decrypt } = enc();
 
