@@ -1,0 +1,4 @@
+/.gitignore
+/src
+*.test.js
+*.test.d.ts

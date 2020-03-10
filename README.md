@@ -2,40 +2,85 @@
 
 JWT, without the bloat.
 
-`mwt` is a simplified JWT(ish) module for use-cases which do not require unsecure or third-party services to verify its tokens.
+`mwt` is an tiny JWT(ish) module that follows the 80-20 rule. It keeps the 20% of JWT that covers 80% of the use-cases.
 
-- Strips all "about this token" claims
-- Encrypts symmetrically instead of asymmetrically
+- Stateless authorisation
+- Wholly encrypted tokens
+- Tiny token sizes (50-90% smaller than JWT)
+- Zero dependencies
 
 ## Usage
 
 ```ts
 import mwt from "mwt";
 
-const encoder = mwt();
+const { encodeToken, decodeToken } = mwt();
 
-// Create an opaque stateless token
-const token = encoder.encodeToken("some-user-id");
+// Create an opaque, stateless token
+const token = encodeToken("some-user-id");
 
 // Check the token's validity in future requests
 try {
-  const userId = encoder.decodeToken(token);
+  const userId = decodeToken(token);
 } catch (err) {
   // Token is not valid
 }
 ```
 
-## Simple Encryptor
-
-`mwt` also comes with a simple wrapper around Node's crypto library that it uses to encrypt the tokens.
+## Options
 
 ```ts
-import { enc } from "mwt";
+interface MwtOptions {
+  /**
+   * The length of time (in seconds) that a token is valid for.
+   * Default is 1 hour.
+   */
+  expiry?: number;
+  /**
+   * The length of time (in seconds) that a token can be accepted before or after it is valid.
+   * This can be used to account for clock drift, although should not be needed unless you have multiple servers.
+   * Default is 0.
+   */
+  leeway?: number;
+}
+
+interface EncOptions {
+  /**
+   * The encryption algorithm to use.
+   * Run `openssl list -cipher-algorithms` to see a list of supported algorithms.
+   * Default is `aes-256-cbc`
+   */
+  algorithm?: string;
+  /**
+   * The length of the initialisation vector.
+   * AES always uses 16.
+   * Default is 16.
+   */
+  ivLength?: number;
+  /**
+   * A secret to encrypt the with.
+   * You should set this if you want tokens to remain valid across servers or through restarts.
+   * AES uses a 32-bit secret.
+   * Default is a random 32-bit key using `crypto.randomBytes(32)`
+   */
+  secret?: string | Buffer;
+}
+
+type Options = MwtOptions & EncOptions;
+```
+
+## Simple Encryptor
+
+`mwt` also comes with a simple wrapper around Node's crypto library that it uses to encrypt the tokens. You can use it too!
+
+```ts
+import enc from "mwt/enc";
 
 const { encrypt, decrypt } = enc();
 
-const encrypted = encrypt("Some secret text");
+const input = "Some secret text";
+const encrypted = encrypt(input);
 const decrypted = decrypt(encrypted);
 
-assert.equal(decrypted, "Some secret text");
+assert.equal(decrypted, input);
 ```
