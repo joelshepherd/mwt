@@ -54,16 +54,16 @@ interface EncOptions {
    */
   algorithm?: string;
   /**
-   * The length of the initialisation vector.
-   * AES always uses 16.
+   * The length in bytes of the initialisation vector.
+   * AES uses 16.
    * Default is 16.
    */
   ivLength?: number;
   /**
-   * A secret to encrypt the with.
-   * You should set this if you want tokens to remain valid across servers or through restarts.
-   * AES uses a 32-bit secret.
-   * Default is a random 32-bit key using `crypto.randomBytes(32)`
+   * A secret to encrypt the tokens.
+   * You should set this if you want tokens to be valid across multiple servers, or through server restarts.
+   * `aes-256-*` uses a 32 byte (256-bit) secret.
+   * Default is 32 random bytes using `crypto.randomBytes(32)`
    */
   secret?: string | Buffer;
 }
