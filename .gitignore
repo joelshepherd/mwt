@@ -1,4 +1,5 @@
 /Cargo.lock
+/deno/wasm
 /dist
 /node_modules
 /package-lock.json
